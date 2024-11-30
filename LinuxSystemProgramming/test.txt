@@ -1,0 +1,2 @@
+This Data has written to the filem test.txt 
+Thank you :)This Data has written to the file
