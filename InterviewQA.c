@@ -1,3 +1,5 @@
+what is boot flow of any embedded board.
+
 what are interrupts and execptions?
 
 what will happen when we disable global interrupt handling system?
