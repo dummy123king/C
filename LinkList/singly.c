@@ -70,14 +70,18 @@ void delete_at_beginning(void)
         return;
     }
     
-    node_t *temp = root;
+    node_t *to_delete = root;
     root = root->next;
-    free(temp);    
+    free(to_delete);    
 }
 
 void add_at_end(int data)
 {
     node_t *new_node = get_node(data);
+    if (new_node == NULL) {
+        return;
+    }
+    
     if (root == NULL) {
         root = new_node;
         return;
@@ -91,7 +95,7 @@ void add_at_end(int data)
     temp->next = new_node;
 }
 
-void delete_at_end()
+void delete_at_end(void)
 {
     if (root == NULL) {
         printf("Nothing to delete\n");
@@ -104,40 +108,164 @@ void delete_at_end()
         return;
     }
     
-    node_t *curr = root, *prev = NULL;
-    while (curr != NULL && curr->next != NULL) {
-        prev = curr;
-        curr = curr->next;
+    node_t *to_delete = root, *prev = NULL;
+    while (to_delete != NULL && to_delete->next != NULL) {
+        prev = to_delete;
+        to_delete = to_delete->next;
     }
     
-    free(curr);
+    free(to_delete);
     prev->next = NULL;    
+}
+
+void add_before_middle(int data)
+{
+    node_t *new_node = get_node(data);
+    if (new_node == NULL) {
+        return;
+    }
+
+    if (root == NULL) {
+        root = new_node;
+        return;
+    }
+
+    if (root->next == NULL) {
+        new_node->next = root;
+        root = new_node;
+        return;
+    }
+
+    node_t *prev = NULL, *mid = root, *fast = root;
+    while (fast != NULL && fast->next != NULL) {
+        prev = mid;
+        mid = mid->next;
+        fast = fast->next->next;
+    }
+    
+    new_node->next = mid;
+    prev->next = new_node;
+}
+
+void delete_before_middle(void)
+{
+    if (root == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    if (root->next == NULL) {
+        free(root);
+        root = NULL;
+        return;
+    }
+    
+    if (root->next->next == NULL) {
+        node_t *to_delete = root;
+        root = root->next;
+        free(to_delete);
+        return;       
+    }
+    
+    node_t *prev_to_prev = NULL, *to_delete = NULL, *mid = root, *fast = root;
+    while (fast != NULL && fast->next != NULL) {
+        prev_to_prev = to_delete;
+        to_delete = mid;
+        mid = mid->next;
+        fast = fast->next->next;
+    }
+
+    if (prev_to_prev == NULL) {
+        root = to_delete->next;
+        free(to_delete);
+    }
+    else {
+        prev_to_prev->next = mid;
+        free(to_delete);
+    }
+}
+
+void add_after_middle(int data)
+{
+    node_t *new_node = get_node(data);
+
+    if (new_node == NULL) {
+        return;
+    }
+
+    if (root == NULL) {
+        root = new_node;
+        return;        
+    }
+
+    if (root->next == NULL) {
+        root->next = new_node;
+        return;
+    }
+
+    node_t *mid = root, *fast = root;
+    while (fast && fast->next) {
+        mid = mid->next;
+        fast = fast->next->next;
+    }
+
+    new_node->next = mid->next;
+    mid->next = new_node;
+}
+
+void delete_after_middle(void)
+{
+    if (root == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    if (root->next == NULL) {
+        return;
+    }
+
+    if (root->next->next == NULL) {
+        node_t *to_delete = root->next;
+        root->next = NULL;
+        free(to_delete);
+        return;
+    }
+
+    node_t *mid = root, *fast = root, *to_delete = NULL;
+    while (fast != NULL && fast->next != NULL) {
+        mid = mid->next;
+        fast = fast->next->next;
+    }
+
+    to_delete = mid->next;
+    mid->next = mid->next->next;
+    free(to_delete);    
 }
 
 
 // Main function
 int main()
 {
-    add_at_end(1);
-    add_at_end(2);
-    add_at_end(3);
-    add_at_end(4);
-    add_at_end(5);
-    add_at_end(6);
+    add_after_middle(1);
     print_list();
-    delete_at_end();
+    add_after_middle(2);
     print_list();
-    delete_at_end();
+    add_after_middle(3);
     print_list();
-    delete_at_end();
+    add_after_middle(4);
     print_list();
-    delete_at_end();
+    add_after_middle(5);
     print_list();
-    delete_at_end();
+    
+    delete_after_middle();
     print_list();
-    delete_at_end();
+    delete_after_middle();
     print_list();
-    delete_at_end();
+    delete_after_middle();
+    print_list();
+    delete_after_middle();
+    print_list();
+    delete_after_middle();
     print_list();
     return 0;
 }
