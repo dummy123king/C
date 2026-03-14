@@ -24,7 +24,6 @@ node_t *get_node(int data)
     return new_node;    
 }
 
-
 void print_list(void)
 {
     node_t *temp = root;
@@ -33,8 +32,7 @@ void print_list(void)
         printf("List is empty\n");
         return;
     }
-    
-    
+   
     while (temp != NULL) {
         printf("%d->", temp->data);
         temp = temp->next;
@@ -117,7 +115,6 @@ void delete_at_end()
 }
 
 
-
 // Main function
 int main()
 {
@@ -140,7 +137,7 @@ int main()
     print_list();
     delete_at_end();
     print_list();
-        delete_at_end();
+    delete_at_end();
     print_list();
     return 0;
 }
