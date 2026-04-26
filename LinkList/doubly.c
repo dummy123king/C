@@ -1,304 +1,336 @@
+/**
+ * @file doubly.c
+ * @brief Implements a doubly linked list.
+ *
+ * This file demonstrates basic doubly linked list operations such as inserting
+ * nodes, deleting nodes, printing in both directions, and reversing the list.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define a structure for a doubly linked list node
-typedef struct DoublyLinkedListNode
+/**
+ * @brief Represents a node in the doubly linked list.
+ */
+typedef struct doubly
 {
-    struct DoublyLinkedListNode *prev; // Pointer to the previous node
-    int data; // Data stored in the node
-    struct DoublyLinkedListNode *next; // Pointer to the next node
-} Node;
+	/** Pointer to the previous node. */
+	struct doubly *prev;
 
-// Declare global pointers for the head and tail of the linked list
-Node *head = NULL;
-Node *tail = NULL;
+	/** Value stored in the node. */
+	int data;
 
-// Function to print the doubly linked list from head to tail
-void printList(void)
+	/** Pointer to the next node. */
+	struct doubly *next;
+} node_t;
+
+node_t *head = NULL;
+node_t *tail = NULL;
+
+/**
+ * @brief Prints all nodes in the list from head to tail.
+ */
+void print_list(void)
 {
-    Node *temp = head;
-    if (temp == NULL)
-    {
-        printf("List is empty\n");
-        return;
-    }
-    while (temp != NULL)
-    {
-        printf("%d<->", temp->data); // Print the data of the current node
-        temp = temp->next; // Move to the next node
-    }
-    printf("\n");
+	node_t *temp = head;
+
+	if (temp == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
+
+	printf("NULL<->");
+	while (temp != NULL)
+	{
+		printf("%d<->", temp->data);
+		temp = temp->next;
+	}
+	printf("NULL\n");
 }
 
-// Function to print the doubly linked list from tail to head (in reverse)
-void printListReverse()
+/**
+ * @brief Prints all nodes in the list from tail to head.
+ */
+void print_list_reverse(void)
 {
-    Node *temp = tail;
-    if (temp == NULL)
-    {
-        printf("List is empty\n");
-        return;
-    }
-    while (temp != NULL)
-    {
-        printf("%d <->", temp->data); // Print the data of the current node
-        temp = temp->prev; // Move to the previous node
-    }
+	node_t *temp = tail;
+
+	if (temp == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
+	printf("NULL<->");
+	while (temp != NULL)
+	{
+		printf("%d <->", temp->data);
+		temp = temp->prev;
+	}
+	printf("NULL\n");
 }
 
-// Function to add a new node with data at the beginning of the linked list
-void addAtFirst(int data)
+/**
+ * @brief Inserts a new node at the beginning of the list.
+ *
+ * @param data Value to store in the new node.
+ */
+void add_at_first(int data)
 {
-    Node *newNode = malloc(sizeof(Node)); // Allocate memory for the new node
+	node_t *new_node = malloc(sizeof(node_t));
 
-    if (newNode == NULL)
-    {
-        printf("Unable to allocate memory\n");
-        return;
-    }
-    
-    newNode->prev = NULL;
-    newNode->data = data;
-    newNode->next = NULL;
+	if (new_node == NULL)
+	{
+		printf("Unable to allocate memory\n");
+		return;
+	}
 
-    if (head == NULL && tail == NULL)
-    {
-        // If the list is empty, make the new node the head and tail
-        head = newNode;
-        tail = newNode;
-        return;
-    }
-    else
-    {
-        // If the list is not empty, insert the new node at the beginning
-        newNode->next = head;
-        head->prev = newNode;
-        head = newNode;
-    }
+	new_node->prev = NULL;
+	new_node->data = data;
+	new_node->next = NULL;
+
+	if (head == NULL && tail == NULL)
+	{
+		head = new_node;
+		tail = new_node;
+		return;
+	}
+	else
+	{
+		new_node->next = head;
+		head->prev = new_node;
+		head = new_node;
+	}
 }
 
-// Function to add a new node with data at the end of the linked list
-void addAtLast(int data)
+/**
+ * @brief Inserts a new node at the end of the list.
+ *
+ * @param data Value to store in the new node.
+ */
+void add_at_end(int data)
 {
-    Node *newNode = malloc(sizeof(Node)); // Allocate memory for the new node
-    if (newNode == NULL)
-    {
-        printf("Unable to allocate memory\n");
-        return;
-    }
-    
-    newNode->prev = NULL;
-    newNode->data = data;
-    newNode->next = NULL;
+	node_t *new_node = malloc(sizeof(node_t));
+	if (new_node == NULL)
+	{
+		printf("Unable to allocate memory\n");
+		return;
+	}
 
-    if (head == NULL && tail == NULL)
-    {
-        // If the list is empty, make the new node the head and tail
-        head = newNode;
-        tail = newNode;
-        return;
-    }
-    else
-    {
-        // If the list is not empty, insert the new node at the end
-        newNode->prev = tail;
-        tail->next = newNode;
-        tail = newNode;
-    }
+	new_node->prev = NULL;
+	new_node->data = data;
+	new_node->next = NULL;
+
+	if (head == NULL && tail == NULL)
+	{
+		head = new_node;
+		tail = new_node;
+		return;
+	}
+	else
+	{
+		new_node->prev = tail;
+		tail->next = new_node;
+		tail = new_node;
+	}
 }
 
-// Function to add a new node with data in the middle of the linked list
-void addAtMiddle(int data)
+/**
+ * @brief Inserts a new node near the middle of the list.
+ *
+ * For lists with multiple nodes, the new node is inserted after the middle node
+ * found using slow and fast pointers.
+ *
+ * @param data Value to store in the new node.
+ */
+void add_at_middle(int data)
 {
-    Node *newNode = malloc(sizeof(Node)); // Allocate memory for the new node
-    if (newNode == NULL)
-    {
-        printf("Unable to allocate memory");
-        return;
-    }
-    
-    newNode->prev = NULL;
-    newNode->data = data;
-    newNode->next = NULL;
+	node_t *new_node = malloc(sizeof(node_t));
 
-    if (head == NULL && tail == NULL)
-    {
-        // If the list is empty, make the new node the head and tail
-        head = tail = newNode;
-        return;
-    }
+	if (new_node == NULL)
+	{
+		printf("Unable to allocate memory");
+		return;
+	}
 
-    if (head->next == NULL)
-    {
-        // If there's only one node in the list, insert the new node after it
-        newNode->prev = head;
-        head->next = newNode;
-        tail = newNode;
-        return;
-    }
-    else
-    {
-        // If there are multiple nodes in the list, insert the new node in the middle
-        Node *mid = head, *fast = head->next;
+	new_node->prev = NULL;
+	new_node->data = data;
+	new_node->next = NULL;
 
-        // Find the middle node using slow and fast pointers
-        while (fast && fast->next)
-        {
-            mid = mid->next;
-            fast = fast->next->next;
-        }
-        // Insert the new node after the middle node
-        newNode->prev = mid;
-        newNode->next = mid->next;
+	if (head == NULL && tail == NULL)
+	{
+		head = tail = new_node;
+		return;
+	}
 
-        if (mid->next != NULL) {
-            mid->next->prev = newNode;
-        }
-       
-        mid->next = newNode;
-       
-        if (newNode->next == NULL )
-        {
-            tail = newNode;
-        }
-    }
+	if (head->next == NULL)
+	{
+		new_node->prev = head;
+		head->next = new_node;
+		tail = new_node;
+		return;
+	}
+	else
+	{
+		node_t *mid = head, *fast = head->next;
+
+		while (fast && fast->next)
+		{
+			mid = mid->next;
+			fast = fast->next->next;
+		}
+
+		new_node->prev = mid;
+		new_node->next = mid->next;
+
+		if (mid->next != NULL)
+		{
+			mid->next->prev = new_node;
+		}
+
+		mid->next = new_node;
+
+		if (new_node->next == NULL)
+		{
+			tail = new_node;
+		}
+	}
 }
 
-// Function to delete the first node from the linked list
-void deleteAtFirst(void)
+/**
+ * @brief Deletes the first node from the list.
+ */
+void delete_at_first(void)
 {
-    Node* temp = head; 
+	node_t *temp = head;
 
-    if (temp == NULL)
-    {
-        printf("List is empty\n");
-        return;
-    }
-    if (temp->next == NULL)
-    {
-        // If there's only one node in the list, delete it and update head and tail
-        free(temp);
-        head = NULL;
-        tail = NULL;
-        return;
-    }
-    
-    // If there are multiple nodes in the list, delete the first node and update head
-    head = head->next;
-    head->prev = NULL;
-    free(temp);
+	if (temp == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
+	if (temp->next == NULL)
+	{
+		free(temp);
+		head = NULL;
+		tail = NULL;
+		return;
+	}
+
+	head = head->next;
+	head->prev = NULL;
+	free(temp);
 }
 
-// Function to delete the last node from the linked list
-void deleteAtLast(void)
+/**
+ * @brief Deletes the last node from the list.
+ */
+void delete_at_end(void)
 {
-    Node *temp = tail;
-    if (temp == NULL && head == NULL)
-    {
-        printf("List is empty");
-        return;   
-    }
-    if (temp->prev == NULL)
-    {
-        // If there's only one node in the list, delete it and update head and tail
-        free(temp);
-        tail = NULL;
-        head = NULL;
-        return;
-    }
-    // If there are multiple nodes in the list, delete the last node and update tail
-    tail->prev->next = NULL;
-    tail = tail->prev;
-    free(temp);    
+	node_t *temp = tail;
+	if (temp == NULL && head == NULL)
+	{
+		printf("List is empty");
+		return;
+	}
+	if (temp->prev == NULL)
+	{
+		free(temp);
+		tail = NULL;
+		head = NULL;
+		return;
+	}
+	tail->prev->next = NULL;
+	tail = tail->prev;
+	free(temp);
 }
 
-// Function to delete the middle node from the linked list
-void deleteAtMiddle(void)
+/**
+ * @brief Deletes the middle node from the list.
+ *
+ * For lists with an even number of nodes, the second middle node is deleted.
+ */
+void delete_at_middle(void)
 {
-    Node *slow = head, *fast = head;
-    
-    if (head == NULL)
-    {
-        printf("List is empty\n");
-        return;
-    }
-    
+	node_t *slow = head, *fast = head;
 
-    if (head->next == NULL)
-    {
-        // If there's only one node in the list, delete it and update head and tail
-        free(head);
-        head = tail = NULL;
-        return;
-    }
-    
+	if (head == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
 
-    // Use slow and fast pointers to find the middle node
-    while (fast && fast->next != NULL)
-    {
-        slow = slow->next;
-        fast = fast->next->next;
-    }
+	if (head->next == NULL)
+	{
+		free(head);
+		head = tail = NULL;
+		return;
+	}
 
-    // Delete the middle node and update pointers
-    slow->prev->next = slow->next;
+	while (fast && fast->next != NULL)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}
 
-    if(slow->next != NULL)
-    {
-        slow->next->prev = slow->prev;
-    }
+	slow->prev->next = slow->next;
 
+	if (slow->next != NULL)
+	{
+		slow->next->prev = slow->prev;
+	}
 
-    if (slow->next == NULL)
-    {
-        tail = slow->prev;
-    }
-    
-    free(slow);
+	if (slow->next == NULL)
+	{
+		tail = slow->prev;
+	}
+
+	free(slow);
 }
 
-// Function to reverse the linked list
-void reverseList(void)
+/**
+ * @brief Reverses the list by swapping each node's previous and next pointers.
+ */
+void reverse_list(void)
 {
-    Node *temp = NULL, *curr = head;
+	node_t *temp = NULL, *curr = head;
 
-    while (curr != NULL)
-    {
-        // Swap prev and next pointers of the current node
-        temp = curr->prev;
-        curr->prev = curr->next;
-        curr->next = temp;
-        curr = curr->prev; 
-    }
+	while (curr != NULL)
+	{
+		temp = curr->prev;
+		curr->prev = curr->next;
+		curr->next = temp;
+		curr = curr->prev;
+	}
 
-    if (temp != NULL)
-    {
-        // If temp is not NULL, it means the list was not empty, so update head and tail
-        head = temp->prev;
-        tail = temp;
-    }    
+	if (temp != NULL)
+	{
+		head = temp->prev;
+		tail = temp;
+	}
 }
 
-// Main function
-int main()
+/**
+ * @brief Demonstrates basic doubly linked list operations.
+ *
+ * @return 0 when the program finishes successfully.
+ */
+int main(void)
 {
-    // Add some nodes to the linked list
-    addAtLast(5);
-    addAtLast(1);
-    addAtLast(6);
-    addAtLast(55);
-    addAtLast(77);
-    addAtLast(88);
-    addAtLast(99);
+	add_at_end(5);
+	add_at_end(1);
+	add_at_end(6);
+	add_at_end(55);
+	add_at_end(77);
+	add_at_end(88);
+	add_at_end(99);
 
-    // Print the original list
-    printf("Original list:\n");
-    printList();
+	printf("Original list:\n");
+	print_list();
 
-    // Reverse the list and print it
-    printf("\nList after reversing:\n");
-    reverseList();
-    printList();
+	printf("\nList after reversing:\n");
+	reverse_list();
+	print_list();
 
-    return 0;
+	return 0;
 }
