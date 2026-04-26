@@ -14,16 +14,16 @@
  * @brief Checks whether the given number is prime.
  *
  * @param num Number to check.
- * @return true if num is prime, false otherwise.
+ * @return true if @p num is prime, false otherwise.
  */
 bool is_prime_number(int num)
 {
 	bool is_prime = true;
-	
+
 	if (num == 0 || num == 1)
 		return false;
 	else
-       	{
+	{
 		for (int i = 2; i <= sqrt(num); ++i)
 		{
 			if (num % i == 0)
@@ -48,8 +48,8 @@ int main(void)
 
 	if (is_prime_number(num))
 		printf("%d is a prime number.\n", num);
-	else 
-	        printf("%d is not a prime number.\n", num);
+	else
+		printf("%d is not a prime number.\n", num);
 
 	return 0;
 }

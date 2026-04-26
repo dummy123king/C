@@ -1,52 +1,54 @@
 #include <stdio.h>
 
-// Function to calculate Fibonacci series using iteration
-void fibonacciWithIteration(int number)
+void fibonacci_with_iteration(int number)
 {
     int n1 = 0, n2 = 1, fib = 0;
 
-    // Print the first two Fibonacci numbers (0 and 1)
-    printf("%d, %d, ", n1, n2);
+    printf("0, ");
 
-    // Iterate to calculate and print subsequent Fibonacci numbers
-    for (int i = 2; i < number; i++)
-    {
-        fib = n1 + n2;  // Calculate the next Fibonacci number
-        n1 = n2;        // Update n1 to the previous value of n2
-        n2 = fib;       // Update n2 to the newly calculated Fibonacci number
-        printf("%d, ", fib);  // Print the Fibonacci number
-    }
-    printf("\n\n"); // Print a newline for better formatting
-}
-
-// Function to calculate Fibonacci series using recursion
-int fibonacciWithRecursion(int number)
-{
-    // Base cases: return 0 for 0th Fibonacci number, and 1 for 1st Fibonacci number
-    if (number == 0)
-    {
-        return 0;
-    }
     if (number == 1)
     {
-        return 1;
+        printf("\n\n");
+        return;
     }
 
-    // Recursive call to calculate the nth Fibonacci number
-    return (fibonacciWithRecursion(number - 1) + fibonacciWithRecursion(number - 2));
+    printf("%d, %d, ", n1, n2);
+
+    for (int i = 2; i < number; i++)
+    {
+        fib = n1 + n2;
+        n1 = n2;
+        n2 = fib;
+        printf("%d, ", fib);
+    }
+
+    printf("\n\n");
 }
 
-int main(int argc, char **argv)
+int fibonacci_with_recursion(int number)
 {
-    // Calculate and print Fibonacci series using iteration for the first 10 numbers
-    fibonacciWithIteration(10);
+    if (number < 0)
+        return -1;
 
-    // Calculate and print Fibonacci series using recursion for the first 10 numbers
+    if (number == 0)
+        return 0;
+
+    if (number == 1)
+        return 1;
+
+    return (fibonacci_with_recursion(number - 1) + fibonacci_with_recursion(number - 2));
+}
+
+int main(void)
+{
+    fibonacci_with_iteration(1);
+
     for (size_t i = 0; i < 10; i++)
     {
-        printf("%d, ", fibonacciWithRecursion(i));
+        printf("%d, ", fibonacci_with_recursion(i));
     }
-    printf("\n\n"); // Print a newline for better formatting
+    printf("\n\n");
     
     return 0;
 }
+
