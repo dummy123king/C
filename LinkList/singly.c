@@ -1,292 +1,369 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // Define a structure for a single linked list node
-typedef struct SingleLinkList
+typedef struct single_link_list
 {
-  int data;
-  struct SingleLinkList *next;
+	int data;
+	struct single_link_list *next;
 } Node;
 
 // Declare a global pointer for the head of the linked list
 Node *head = NULL;
 
-// Function to print the linked list
-void printLinkList(void)
+/**
+ * Creates a new linked list node with the given data.
+ *
+ * @param data The integer value to be stored in the new node.
+ *
+ * @return A pointer to the newly created node, or NULL if memory allocation fails.
+ */
+static Node *create_node(int data)
 {
-  Node *temp = head;
-
-  if (temp == NULL) // Check if the list is empty
-  {
-    printf("List is empty\n");
-    return;
-  }
-  while (temp != NULL) // Traverse the list and print each element
-  {
-    printf("%d->", temp->data);
-    temp = temp->next;
-  }
-  printf("NULL\n\n");
+	Node *newNode = malloc(sizeof(Node));
+	if (newNode == NULL)
+	{
+		fprintf(stderr, "Unable to allocate memory for a new node\n");
+		return NULL;
+	}
+	newNode->data = data;
+	newNode->next = NULL;
+	return newNode;
 }
 
-// Function to add a node with data at the beginning of the list
-void addAtFirst(int data)
+/**
+ * Prints all nodes in the linked list.
+ *
+ * @param None.
+ *
+ * @return None. Prints the linked list elements or a message if the list is empty.
+ */
+void print_list(void)
 {
-  Node *newNode = malloc(sizeof(Node)); // Allocate memory for the new node
+	Node *temp = head;
 
-  if (newNode == NULL) // Check if memory allocation was successful
-  {
-    printf("No memory to allocate \n");
-    return;
-  }
-  newNode->data = data; // Assign data to the new node
-  newNode->next = NULL;
-
-  if (head == NULL) // If the list is empty, make the new node the head
-  {
-    head = newNode;
-  }
-  else // If the list is not empty, add the new node at the beginning
-  {
-    newNode->next = head;
-    head = newNode;
-  }
+	if (temp == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
+	while (temp != NULL)
+	{
+		printf("%d->", temp->data);
+		temp = temp->next;
+	}
+	printf("NULL\n");
 }
 
-// Function to add a node with data at the end of the list
-void addAtLast(int data)
+/**
+ * Adds a new node with the given data at the beginning of the linked list.
+ *
+ * @param data The integer value to be stored in the new node.
+ *
+ * @return None. Updates the head pointer to point to the new node.
+ */
+void add_at_first(int data)
 {
-  Node *newNode = malloc(sizeof(Node)); // Allocate memory for the new node
+	Node *newNode = create_node(data);
 
-  if (newNode == NULL) // Check if memory allocation was successful
-  {
-    printf("No memory to allocate \n");
-    return;
-  }
-  newNode->data = data; // Assign data to the new node
-  newNode->next = NULL;
-
-  if (head == NULL) // If the list is empty, make the new node the head
-  {
-    head = newNode;
-  }
-  else // If the list is not empty, add the new node at the end
-  {
-    Node *temp = head;
-    while (temp->next != NULL) // Traverse the list to find the last node
-    {
-      temp = temp->next;
-    }
-    temp->next = newNode; // Add the new node after the last node
-  }
+	if (newNode == NULL)
+	{
+		return;
+	}
+	newNode->next = head;
+	head = newNode;
 }
 
-// Function to delete the first node from the list
-void deleteAtFirst(void)
+/**
+ * Adds a new node with the given data at the end of the linked list.
+ *
+ * @param data The integer value to be stored in the new node.
+ *
+ * @return None. Appends the new node to the linked list.
+ */
+void add_at_last(int data)
 {
-  if (head == NULL) // If the list is empty, print a message and return
-  {
-    printf("List is empty\n");
-    return;
-  }
-  else // If the list is not empty, delete the first node
-  {
-    Node *temp = head;
+	Node *newNode = create_node(data);
 
-    if (temp->next == NULL) // If there's only one node in the list, delete it and update head
-    {
-      free(temp);
-      temp = NULL;
-      head = NULL;
-    }
-    else // If there are multiple nodes in the list, delete the first node and update head
-    {
-      head = head->next;
-      free(temp);
-      temp = NULL;
-    }
-  }
+	if (newNode == NULL)
+	{
+		return;
+	}
+
+	if (head == NULL)
+	{
+		head = newNode;
+		return;
+	}
+
+	Node *temp = head;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+	temp->next = newNode;
 }
 
-// Function to delete the last node from the list
-void deleteAtLast(void)
+/**
+ * Deletes the first node from the linked list.
+ *
+ * @param None.
+ *
+ * @return None. Removes the first node or prints a message if the list is empty.
+ */
+void delete_at_first(void)
 {
-  Node *temp = head, *prev;
+	if (head == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
 
-  if (head == NULL) // If the list is empty, print a message and return
-  {
-    printf("List is empty\n");
-    return;
-  }
-  else // If the list is not empty, delete the last node
-  {
-    if (temp->next == NULL) // If there's only one node in the list, delete it and update head
-    {
-      free(temp);
-      temp = NULL;
-      head = NULL;
-    }
-    else // If there are multiple nodes in the list, traverse to the second last node and delete the last node
-    {
-      while (temp && temp->next) // Traverse the list to find the second last node
-      {
-        prev = temp;
-        temp = temp->next;
-      }
-      prev->next = NULL; // Update the next pointer of the second last node
-      free(temp); // Free memory allocated for the last node
-      temp = NULL;
-    }
-  }
+	Node *temp = head;
+	head = head->next;
+	free(temp);
 }
 
-// Function to add a node with data in the middle of the list
-void addAtMiddle(int data)
+/**
+ * Deletes the last node from the linked list.
+ *
+ * @param None.
+ *
+ * @return None. Removes the last node or prints a message if the list is empty.
+ */
+void delete_at_last(void)
 {
-  Node *newNode = malloc(sizeof(Node)); // Allocate memory for the new node
+	if (head == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
 
-  if (newNode == NULL) // Check if memory allocation was successful
-  {
-    printf("No memory to allocate \n");
-    return;
-  }
-  newNode->data = data; // Assign data to the new node
-  newNode->next = NULL;
+	Node *temp = head;
+	Node *prev = NULL;
 
-  if (head == NULL) // If the list is empty, make the new node the head
-  {
-    head = newNode;
-  }
-  else // If the list is not empty, add the new node in the middle
-  {
-    Node *midPtr = head, *lastPtr = head->next;
+	while (temp->next != NULL)
+	{
+		prev = temp;
+		temp = temp->next;
+	}
 
-    while (lastPtr && lastPtr->next) // Traverse the list to find the middle node
-    {
-      lastPtr = lastPtr->next->next;
-      midPtr = midPtr->next;
-    }
-    newNode->next = midPtr->next; // Insert the new node after the middle node
-    midPtr->next = newNode;
-  }
+	if (prev == NULL)
+	{
+		head = NULL;
+	}
+	else
+	{
+		prev->next = NULL;
+	}
+
+	free(temp);
 }
 
-// Function to delete the middle node from the list
-void deleteAtMiddle_1(void)
+/**
+ * Adds a new node with the given data in the middle of the linked list.
+ *
+ * @param data The integer value to be stored in the new node.
+ *
+ * @return None. Inserts the new node in the middle of the linked list.
+ */
+void add_at_middle(int data)
 {
-  if (head == NULL) // If the list is empty, print a message and return
-  {
-    printf("List is empty\n");
-    return;
-  }
-  if (head->next == NULL) // If there's only one node in the list, delete it and update head
-  {
-    free(head);
-    head = NULL;
-    return;
-  }
-  else // If there are multiple nodes in the list, delete the middle node
-  {
-    Node *lastPtr = head->next, *midPtr = head, *prev = NULL;
+	Node *newNode = create_node(data);
 
-    while (lastPtr != NULL) // Traverse the list to find the middle node
-    {
-      prev = midPtr;
-      midPtr = midPtr->next;
+	if (newNode == NULL)
+	{
+		return;
+	}
 
-      lastPtr = lastPtr->next;
-      if (lastPtr != NULL)
-      {
-        lastPtr = lastPtr->next;
-      }
-    }
-    prev->next = midPtr->next; // Update the next pointer of the node before the middle node
-    free(midPtr); // Free memory allocated for the middle node
-  }
+	if (head == NULL)
+	{
+		head = newNode;
+		return;
+	}
+
+	Node *midPtr = head;
+	Node *fastPtr = head->next;
+
+	while (fastPtr != NULL && fastPtr->next != NULL)
+	{
+		midPtr = midPtr->next;
+		fastPtr = fastPtr->next->next;
+	}
+
+	newNode->next = midPtr->next;
+	midPtr->next = newNode;
 }
 
-// Function to reverse the linked list iteratively
-void reverseList(void)
+/**
+ * Deletes the middle node from the linked list.
+ *
+ * @param None.
+ *
+ * @return None. Removes the middle node or prints a message if the list is empty.
+ */
+void delete_at_middle_1(void)
 {
-  if (head == NULL || head->next == NULL) // If the list is empty or has only one node, no need to reverse
-  {
-    return;
-  }
-  else // If the list has more than one node, reverse it
-  {
-    Node *prevNode = NULL, *currNode = head, *nextNode = NULL;
-    while (currNode != NULL) // Traverse the list and reverse the pointers
-    {
-      nextNode = currNode->next;
-      currNode->next = prevNode;
-      prevNode = currNode;
-      currNode = nextNode;
-    }
-    head = prevNode; // Update the head to point to the last node (previously the first node)
-  }
+	if (head == NULL)
+	{
+		printf("List is empty\n");
+		return;
+	}
+
+	if (head->next == NULL)
+	{
+		free(head);
+		head = NULL;
+		return;
+	}
+
+	Node *slow = head;
+	Node *fast = head;
+	Node *prev = NULL;
+
+	while (fast != NULL && fast->next != NULL)
+	{
+		prev = slow;
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	prev->next = slow->next;
+	free(slow);
 }
 
-// Function to reverse the linked list recursively
-void reverseListRecursively(Node *ptr)
+/**
+ * Reverses the linked list iteratively.
+ *
+ * @param None.
+ *
+ * @return None. Updates the head pointer to the first node of the reversed list.
+ */
+void reverse_list(void)
 {
-  if (ptr->next == NULL) // If the current node is the last node, make it the head
-  {
-    head = ptr;
-    return;
-  }
-  reverseListRecursively(ptr->next); // Recursively call the function with the next node
-  Node *temp = ptr->next;
-  temp->next = ptr;
-  ptr->next = NULL;
+	Node *prevNode = NULL;
+	Node *currNode = head;
+	Node *nextNode = NULL;
+
+	while (currNode != NULL)
+	{
+		nextNode = currNode->next;
+		currNode->next = prevNode;
+		prevNode = currNode;
+		currNode = nextNode;
+	}
+	head = prevNode;
 }
 
-// Function to check if the linked list contains a loop
-bool findLoopInList()
+/**
+ * Reverses the linked list recursively.
+ *
+ * @param ptr A pointer to the current node in the linked list.
+ *
+ * @return None. Updates the head pointer to the first node of the reversed list.
+ */
+void reverse_list_recursively(Node *ptr)
 {
-  // Creating a loop in the list for testing purposes
-  addAtFirst(4);
-  addAtFirst(5);
-  addAtFirst(7);
-  addAtFirst(8);
-  addAtFirst(9);
-  addAtFirst(55);
-  addAtFirst(88);
-  addAtFirst(35);
-  addAtFirst(66);
-  printLinkList();
-  // head->next->next->next = head->next->next; // Uncomment to introduce loop in the list
+	if (ptr == NULL)
+	{
+		head = NULL;
+		return;
+	}
 
-  Node *slow = head, *fast = head;
+	if (ptr->next == NULL)
+	{
+		head = ptr;
+		return;
+	}
 
-  // Using Floyd's cycle detection algorithm to find a loop in the list
-  while (slow && fast && fast->next)
-  {
-    slow = slow->next;
-    fast = fast->next->next;
-    if (fast == slow)
-    {
-      printf("List has a loop\n");
-      return true;
-    }
-  }
-  printf("No loop in the list\n");
-  return false;
+	reverse_list_recursively(ptr->next);
+	ptr->next->next = ptr;
+	ptr->next = NULL;
 }
 
-// Main function
-int main()
+/**
+ * Checks whether the linked list contains a loop.
+ *
+ * @param None.
+ *
+ * @return true if the linked list contains a loop, otherwise false.
+ */
+bool find_loop_in_list(void)
 {
-  // Adding elements to the linked list
-  addAtFirst(1);
-  addAtFirst(5);
-  addAtFirst(4);
-  addAtFirst(5);
-  addAtFirst(2);
-  addAtFirst(33);
-  printLinkList();
+	Node *slow = head;
+	Node *fast = head;
 
-  return 0;
+	// Using Floyd's cycle detection algorithm to find a loop in the list
+	while (fast != NULL && fast->next != NULL)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+		if (fast == slow)
+		{
+			printf("List has a loop\n");
+			return true;
+		}
+	}
+
+	printf("No loop in the list\n");
+	return false;
+}
+
+/**
+ * Deletes all nodes from the linked list and frees their memory.
+ *
+ * @param None.
+ *
+ * @return None. Frees all nodes and sets the head pointer to NULL.
+ */
+void freeList(void)
+{
+	Node *temp = head;
+
+	while (temp != NULL)
+	{
+		Node *next = temp->next;
+		free(temp);
+		temp = next;
+	}
+	head = NULL;
+}
+
+/**
+ * Demonstrates linked list operations.
+ *
+ * @param None.
+ *
+ * @return 0 after completing all linked list operations.
+ */
+int main(void)
+{
+	add_at_first(1);
+	add_at_first(5);
+	add_at_first(4);
+	add_at_first(5);
+	add_at_first(2);
+	add_at_first(33);
+	print_list();
+
+	add_at_last(99);
+	add_at_middle(77);
+	print_list();
+
+	delete_at_first();
+	delete_at_last();
+	delete_at_middle_1();
+	print_list();
+
+	reverse_list();
+	print_list();
+
+	reverse_list_recursively(head);
+	print_list();
+
+	(void)find_loop_in_list();
+	freeList();
+
+	return 0;
 }
