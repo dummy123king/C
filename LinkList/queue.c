@@ -1,136 +1,203 @@
+/**
+ * @file queue.c
+ * @brief Implements a queue using a singly linked list.
+ *
+ * This file demonstrates basic queue operations such as enqueue, dequeue,
+ * peek, printing, and deleting the queue.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-// Define a structure for a queue node
+/**
+ * @brief Represents one node in the queue.
+ */
 typedef struct queue
 {
-    int data;           // Data stored in the node
-    struct queue *next; // Pointer to the next node
-} Queue;
+	/** Value stored in the queue node. */
+	int data;
+	/** Pointer to the next node in the queue. */
+	struct queue *next;
+} queue_t;
 
-// Declare global pointers for the head and tail of the queue
-Queue *head = NULL;
-Queue *tail = NULL;
+queue_t *head = NULL;
+queue_t *tail = NULL;
 
-// Function to check if the queue is empty
-bool isEmpty(void)
+/**
+ * @brief Checks whether the queue is empty.
+ *
+ * @return true if the queue has no nodes, false otherwise.
+ */
+bool is_empty(void)
 {
-    if (head == NULL) // If head is NULL, the queue is empty
-    {
-        return true;
-    }
-    return false;
+	return head == NULL;
 }
 
-// Function to print the elements of the queue
-bool printQueue(void)
+/**
+ * @brief Prints all elements in the queue from front to rear.
+ *
+ * @return true if the queue was printed, false if the queue is empty.
+ */
+bool print_queue(void)
 {
-    if (isEmpty() == true) // If the queue is empty, print a message and return false
-    {
-        printf("List is empty\n");
-        return false;
-    }
-    Queue *temp = head;
+	if (is_empty())
+	{
+		printf("List is empty\n");
+		return false;
+	}
 
-    while (temp != NULL) // Traverse the queue and print each element
-    {
-        printf("%d -> ", temp->data);
-        temp = temp->next;
-    }
-    printf("\n");
-    return true;
+	queue_t *temp = head;
+
+	while (temp != NULL)
+	{
+		printf("%d -> ", temp->data);
+		temp = temp->next;
+	}
+
+	printf("NULL\n");
+
+	return true;
 }
 
-// Function to add an element to the end of the queue (enqueue)
+/**
+ * @brief Adds a new value to the rear of the queue.
+ *
+ * @param data Value to store in the new queue node.
+ * @return true if the value was enqueued successfully, false if memory
+ *         allocation failed.
+ */
 bool enqueue(int data)
 {
-    Queue *newNode = malloc(sizeof(Queue)); // Allocate memory for the new node
-    if (newNode == NULL)                    // Check if memory allocation was successful
-    {
-        printf("List is full/Unable to allocate memory\n");
-        return false;
-    }
-    newNode->data = data; // Assign data to the new node
-    newNode->next = NULL;
+	queue_t *new_node = malloc(sizeof(queue_t));
 
-    if (head == NULL) // If the queue is empty, make the new node both head and tail
-    {
-        head = newNode;
-        tail = newNode;
-    }
-    else // If the queue is not empty, add the new node to the end and update tail
-    {
-        tail->next = newNode;
-        tail = newNode;
-    }
-    return true;
+	if (new_node == NULL)
+	{
+		printf("Unable to allocate memory\n");
+		return false;
+	}
+
+	new_node->data = data;
+	new_node->next = NULL;
+
+	if (is_empty())
+	{
+		head = new_node;
+		tail = new_node;
+	}
+	else
+	{
+		tail->next = new_node;
+		tail = new_node;
+	}
+
+	return true;
 }
 
-// Function to remove an element from the front of the queue (dequeue)
+/**
+ * @brief Removes the front value from the queue.
+ *
+ * @param data Pointer where the dequeued value will be stored.
+ * @return true if a value was dequeued successfully, false if the queue is
+ *         empty or data is NULL.
+ */
 bool dequeue(int *data)
 {
-    if (isEmpty() == true) // If the queue is empty, return false
-    {
-        return false;
-    }
-    else // If the queue is not empty, remove the first element and update head
-    {
-        Queue *temp = head;
-        *data = temp->data; // Store the data of the first element
-        head = head->next;  // Move head to the next node
-        free(temp);         // Free memory allocated for the first node
-    }
-    return true;
+	if (data == NULL || is_empty())
+		return false;
+
+	queue_t *temp = head;
+	*data = temp->data;
+	head = head->next;
+	free(temp);
+
+	if (head == NULL)
+		tail = NULL;
+
+	return true;
 }
 
-// Function to delete the entire queue and free memory
-bool deleteQueue(void)
+/**
+ * @brief Frees all nodes in the queue.
+ *
+ * @return true if the queue was deleted, false if the queue is already empty.
+ */
+bool delete_queue(void)
 {
-    if (isEmpty() == true) // If the queue is empty, print a message and return false
-    {
-        printf("List is empty\n");
-        return false;
-    }
-    Queue *temp = NULL;
-    while (head != NULL) // Traverse the queue and free memory for each node
-    {
-        temp = head;
-        head = head->next;
-        free(temp);
-    }
-    return true;
+	if (is_empty())
+		return false;
+
+	queue_t *temp = NULL;
+	while (head != NULL)
+	{
+		temp = head;
+		head = head->next;
+		free(temp);
+	}
+
+	tail = NULL;
+
+	return true;
 }
 
-// Function to get the element at the front of the queue without removing it (peek)
+/**
+ * @brief Reads the front value from the queue without removing it.
+ *
+ * @param data Pointer where the front value will be stored.
+ * @return true if a value was read successfully, false if the queue is empty
+ *         or data is NULL.
+ */
 bool peek(int *data)
 {
-    if (isEmpty() == true) // If the queue is empty, return false
-    {
-        return false;
-    }
-    *data = head->data; // Store the data of the first element in the provided variable
+	if (data == NULL || is_empty())
+		return false;
+
+	*data = head->data;
+
+	return true;
 }
 
-// Main function
-int main()
+/**
+ * @brief Counts the number of nodes currently in the queue.
+ *
+ * @return Number of elements in the queue.
+ */
+int size(void)
 {
-    int data = 0;
+	int count = 0;
+	queue_t *temp = head;
 
-    // Add elements to the queue
-    enqueue(1);
-    enqueue(2);
-    enqueue(3);
-    enqueue(4);
-    printQueue();
+	while (temp != NULL)
+	{
+		count++;
+		temp = temp->next;
+	}
 
-    // Remove elements from the queue and print after each removal
-    for (size_t i = 0; i < 2; i++)
-    {
-        dequeue(&data);
-        printf("--------------------------->>>Data: %d\n", data);
-        printQueue();
-    }
+	return count;
+}
 
-    return 0;
+/**
+ * @brief Demonstrates basic queue operations.
+ *
+ * @return 0 when the program finishes successfully.
+ */
+int main(void)
+{
+	int data = 0;
+
+	enqueue(1);
+	enqueue(2);
+	enqueue(3);
+	enqueue(4);
+	print_queue();
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		dequeue(&data);
+		printf("--------------------------->>>Data: %d\n", data);
+		print_queue();
+	}
+
+	delete_queue();
+	return 0;
 }
