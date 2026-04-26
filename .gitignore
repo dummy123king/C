@@ -1,3 +1,8 @@
 .vscode
+<<<<<<< HEAD
 .codex
 *.swp
+=======
+a.out
+build
+>>>>>>> c2ff6e504b436f49b8785176bb5f827d8641b398
