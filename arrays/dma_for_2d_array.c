@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void printArray(int **arr, int rows, int cols)
+void print_array(int **arr, int rows, int cols)
 {
     for (int i = 0; i < rows; i++)
     {
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
         }
     }
     
-    printArray(arr, rows, cols);
+    print_array(arr, rows, cols);
 
     //Free the allocated memory of one dimensional array
     for (int i = 0; i < rows; i++)
