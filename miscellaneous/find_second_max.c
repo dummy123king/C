@@ -1,6 +1,18 @@
+/**
+ * @file find_second_max.c
+ * @brief Demonstrates finding the second maximum value in an integer array.
+ */
+
 #include <stdio.h>
 
-int secondMax(int *arr, int len)
+/**
+ * @brief Finds the second maximum value in an integer array.
+ *
+ * @param arr Pointer to the integer array.
+ * @param len Length of the array.
+ * @return The second maximum value in the array.
+ */
+int second_max(int *arr, int len)
 {
     int max1 = arr[0];
     int max2 = arr[1];
@@ -28,10 +40,20 @@ int secondMax(int *arr, int len)
     return max2;
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
 int main()
 {
     int arr[10] = {1, -10, 5, 333, 999, 11, 888, 555, 999, 100};
     int len = sizeof(arr) / sizeof(arr[1]);
-    printf("Second max = %d\n", secondMax(arr, len));
+    printf("Second max = %d\n", second_max(arr, len));
     return 0;
 }
+
+/*
+Expected Output:
+Second max = 888
+*/
