@@ -80,3 +80,10 @@ int main(void)
 
     return 0;
 }
+
+/*
+Expected Output:
+Add 5 and 10 is 15
+mul 5 and 10 is 50
+sub 5 and 10 is -5
+*/
