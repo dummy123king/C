@@ -1,144 +1,162 @@
+/**
+ * @file matrices.c
+ * @brief Demonstrates matrix operations such as multiplication and transpose.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function to perform matrix multiplication
-void MatrixMultiplication()  
+/**
+ * @brief Performs matrix multiplication on two predefined matrices and prints the result.
+ */
+void matrix_multiplication(void)
 {
-    printf("Matrix multiplication\n");   // Print message indicating matrix multiplication
+    printf("Matrix multiplication\n");
 
-    int matrix1R = 4;   // Number of rows in Matrix 1
-    int matrix1C = 4;   // Number of columns in Matrix 1
-    int matrix2R = 4;   // Number of rows in Matrix 2
-    int matrix2C = 4;   // Number of columns in Matrix 2
+    int matrix1_rows = 4;
+    int matrix1_cols = 4;
+    int matrix2_rows = 4;
+    int matrix2_cols = 4;
 
-    int Matrix1[matrix1R][matrix1C];   // Matrix 1
-    int Matrix2[matrix2R][matrix2C];   // Matrix 2
-    int ResultantMatrix[matrix1C][matrix2R];  // Resultant Matrix
+    int matrix1[matrix1_rows][matrix1_cols];
+    int matrix2[matrix2_rows][matrix2_cols];
+    int resultant_matrix[matrix1_cols][matrix2_rows];
 
-    if (matrix1C != matrix2R)   // Check if multiplication is possible
+    if (matrix1_cols != matrix2_rows)
     {
-        printf("\nMatrix multiplication not possible\nMatrix_1 Columns should be equal to Matrix_2 rows\n"); // Print error message
+        printf("\nMatrix multiplication not possible\nMatrix_1 Columns should be equal to Matrix_2 rows\n");
     }
 
-    int value = 1;  // Initialize value for populating matrices
-    for (int i = 0; i < matrix1R; i++)   // Loop for Matrix 1
+    int value = 1;
+    for (int i = 0; i < matrix1_rows; i++)
     {
-        for (int j = 0; j < matrix1C; j++)
+        for (int j = 0; j < matrix1_cols; j++)
         {
-            Matrix1[i][j] = value++;   // Assign value to Matrix 1 element
+            matrix1[i][j] = value++;
         }
     }
     
-    value = 1;   // Reset value for populating Matrix 2
-    for (int i = 0; i < matrix2R; i++)   // Loop for Matrix 2
+    value = 1;
+    for (int i = 0; i < matrix2_rows; i++)
     {
-        for (int j = 0; j < matrix2C; j++)
+        for (int j = 0; j < matrix2_cols; j++)
         {
-            Matrix2[i][j] = value++;   // Assign value to Matrix 2 element
+            matrix2[i][j] = value++;
         }
     }
 
-    printf("Matrix_1\n");   // Print Matrix 1
-    for (int i = 0; i < matrix1R; i++)
+    printf("Matrix_1\n");
+    for (int i = 0; i < matrix1_rows; i++)
     {
-        for (int j = 0; j < matrix1C; j++)
+        for (int j = 0; j < matrix1_cols; j++)
         {
-            printf("%8d", Matrix1[i][j]);   // Print Matrix 1 element
-        }
-        printf("\n");
-    }
-
-    printf("Matrix_2\n");   // Print Matrix 2
-    for (int i = 0; i < matrix2R; i++)
-    {
-        for (int j = 0; j < matrix2C; j++)
-        {
-            printf("%8d", Matrix2[i][j]);   // Print Matrix 2 element
+            printf("%8d", matrix1[i][j]);
         }
         printf("\n");
     }
 
-    int sum = 0;   // Variable to hold sum during multiplication
-    for (int i = 0; i < matrix1R; i++)   // Loop for multiplying matrices
+    printf("Matrix_2\n");
+    for (int i = 0; i < matrix2_rows; i++)
     {
-        for (int j = 0; j < matrix2C; j++)
+        for (int j = 0; j < matrix2_cols; j++)
         {
-            sum = 0;   // Reset sum for each element in resultant matrix
-            for(int k = 0; k < matrix1C; k++)
+            printf("%8d", matrix2[i][j]);
+        }
+        printf("\n");
+    }
+
+    int sum = 0;
+    for (int i = 0; i < matrix1_rows; i++)
+    {
+        for (int j = 0; j < matrix2_cols; j++)
+        {
+            sum = 0;
+            for(int k = 0; k < matrix1_cols; k++)
             {
-                sum = sum + Matrix1[i][k]*Matrix2[k][j];   // Calculate sum for element in resultant matrix
-                ResultantMatrix[i][j] = sum;   // Assign sum to resultant matrix element
+                sum = sum + matrix1[i][k] * matrix2[k][j];
+                resultant_matrix[i][j] = sum;
             }
         }
     }
 
-    printf("Resultant Matrix\n");   // Print Resultant Matrix
-    for (int i = 0; i < matrix1C; i++)
+    printf("Resultant Matrix\n");
+    for (int i = 0; i < matrix1_cols; i++)
     {
-        for (int j = 0; j < matrix2R; j++)
+        for (int j = 0; j < matrix2_rows; j++)
         {
-            printf("%8d", ResultantMatrix[i][j]);   // Print Resultant Matrix element
+            printf("%8d", resultant_matrix[i][j]);
         }
         printf("\n");
     }
 }
 
-void transposeOfMatrix()  // Function to find transpose of a matrix
+/**
+ * @brief Calculates and prints the transpose of a predefined matrix.
+ */
+void transpose_of_matrix(void)
 {
-    printf("Transpose of Matrix\n");   // Print message indicating matrix transpose
+    printf("Transpose of Matrix\n");
 
-    int rows = 3;   // Number of rows in the matrix
-    int cols = 3;   // Number of columns in the matrix
+    int rows = 3;
+    int cols = 3;
 
-    int matrix[rows][cols];   // Original matrix
-    int ResultantMatrix[rows][cols];   // Transposed matrix
+    int matrix[rows][cols];
+    int resultant_matrix[rows][cols];
 
-    int value = 1;   // Initialize value for populating the matrix
-    for (int i = 0; i < rows; i++)   // Loop for populating the matrix
-    {
-        for (int j = 0; j < cols; j++)
-        {
-            matrix[i][j] = value++;   // Assign value to matrix element
-        }
-    }
-
-    printf("Original Matrix\n");   // Print Original Matrix
+    int value = 1;
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
         {
-            printf("%8d", matrix[i][j]);   // Print matrix element
+            matrix[i][j] = value++;
+        }
+    }
+
+    printf("Original Matrix\n");
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            printf("%8d", matrix[i][j]);
         }
         printf("\n");
     }
     
-    for (int  i = 0; i < rows; i++)   // Loop for finding transpose of the matrix
+    for (int  i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
         {
-            ResultantMatrix[i][j] = matrix[j][i];   // Transpose the matrix
+            resultant_matrix[i][j] = matrix[j][i];
         }
     }
-    printf("After Transpose\n");   // Print Transposed Matrix
+    printf("After Transpose\n");
     for (int i = 0; i < cols; i++)
     {
         for (int j = 0; j < rows; j++)
         {
-            printf("%8d", ResultantMatrix[i][j]);   // Print Transposed Matrix element
+            printf("%8d", resultant_matrix[i][j]);
         }
         printf("\n");
     }
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 { 
-    MatrixMultiplication();   // Call function for matrix multiplication
-    transposeOfMatrix();      // Call function for matrix transpose
-    return 0;   // Return 0 to indicate successful completion
+    matrix_multiplication();
+    transpose_of_matrix();
+    return 0;
 }
 
 
 /*
+Expected Output:
 Matrix multiplication
 Matrix_1
        1       2       3       4
