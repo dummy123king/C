@@ -31,6 +31,11 @@ void even_or_odd_using_bitwise_operator(int data)
 		printf("%d is even number\n", data);
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
 int main(void)
 {
 	int data = 3;
@@ -38,3 +43,9 @@ int main(void)
 	even_or_odd_using_bitwise_operator(data);
 	return 0;
 }
+
+/*
+Expected Output:
+3 is odd number
+3 is odd number
+*/
