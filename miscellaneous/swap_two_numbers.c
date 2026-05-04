@@ -35,6 +35,11 @@ void swap_two_numbers_with_temp_variable(int *a, int *b)
 	*b = temp;
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
 int main(void)
 {
 	int a = 10;
@@ -50,3 +55,13 @@ int main(void)
 	return 0;
 }
 
+/*
+Expected Output:
+Before swap:
+a = 10
+b = 20
+
+After swap:
+a = 20
+b = 10
+*/
