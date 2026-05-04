@@ -1,40 +1,65 @@
+/**
+ * @file find_max_value.c
+ * @brief Demonstrates finding the maximum value in an integer array.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-void printArray(int *ptr, int len)
+/**
+ * @brief Prints the elements of an integer array.
+ *
+ * @param ptr Pointer to the integer array.
+ * @param len Length of the array.
+ */
+void print_array(int *ptr, int len)
 {
     for (int i = 0; i < len; i++)
     {
-        printf("%d, ", ptr[i]);  // Print each element of the array
+        printf("%d, ", ptr[i]);
     }
-    printf("\n");  // Print newline character after printing array elements
+    printf("\n");
 }
 
-int findMaxValue(int *ptr, int len)
+/**
+ * @brief Finds the maximum value in an integer array.
+ *
+ * @param ptr Pointer to the integer array.
+ * @param len Length of the array.
+ * @return The maximum value in the array.
+ */
+int find_max_value(int *ptr, int len)
 {
-    int maxValue = ptr[0];  // Initialize maxValue with the first element of the array
+    int max_value = ptr[0];
     for (int i = 1; i < len; i++)
     {
-        if (ptr[i] > maxValue)
+        if (ptr[i] > max_value)
         {
-            maxValue = ptr[i];  // Update maxValue if current element is greater than maxValue
+            max_value = ptr[i];
         }
     }
-    return maxValue;  // Return the maximum value found in the array
+    return max_value;
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 {
-    int maxValue = 0;  // Variable to store the maximum value in the array
-    int arr[10] = {1, 2, 5, 6, 7, 8, 9, 0, 88, -11};  // Array containing integer values
+    int max_value = 0;
+    int arr[10] = {1, 2, 5, 6, 7, 8, 9, 0, 88, -11};
     
-    int len =  sizeof(arr)/sizeof(arr[0]);  // Calculate the length of the array
+    int len =  sizeof(arr)/sizeof(arr[0]);
 
-    printArray(arr, len);  // Print the elements of the array
-    maxValue = findMaxValue(arr, len);  // Find the maximum value in the array
-    printf("Max value is : %d\n", maxValue);  // Print the maximum value
+    print_array(arr, len);
+    max_value = find_max_value(arr, len);
+    printf("Max value is : %d\n", max_value);
     
-    return 0;  // Exit the program
+    return 0;
 }
 /*
 Expected Output:
