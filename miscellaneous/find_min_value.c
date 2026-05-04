@@ -1,40 +1,63 @@
+/**
+ * @file find_min_value.c
+ * @brief This program finds the minimum value in an array of integers.
+ *
+ * It includes a function to print the array and a function to find the minimum value.
+ * The main function demonstrates the usage of these functions.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
-void printArray(int *ptr, int len)
+/**
+ * @brief Prints the elements of an integer array.
+ * @param ptr Pointer to the integer array.
+ * @param len Length of the array.
+ */
+void print_array(int *ptr, int len)
 {
     for (int i = 0; i < len; i++)
     {
-        printf("%d, ", ptr[i]);  // Print each element of the array
+        printf("%d, ", ptr[i]);
     }
-    printf("\n");  // Print newline character after printing array elements
+    printf("\n");
 }
 
-int findMinValue(int *ptr, int len)
+/**
+ * @brief Finds the minimum value in an integer array.
+ * @param ptr Pointer to the integer array.
+ * @param len Length of the array.
+ * @return The minimum value in the array.
+ */
+int find_min_alue(int *ptr, int len)
 {
-    int minValue = ptr[0];  // Initialize minValue with the first element of the array
+    int minValue = ptr[0];
     for (int i = 1; i < len; i++)
     {
         if (ptr[i] < minValue)
         {
-            minValue = ptr[i];  // Update minValue if current element is smaller than minValue
+            minValue = ptr[i];
         }
     }
-    return minValue;  // Return the minimum value found in the array
+    return minValue;
 }
 
-int main(int argc, char **argv)
+/**
+ * @brief Main function to demonstrate finding the minimum value in an array.
+ * @return 0 on successful execution.
+ */
+int main(void)
 {
-    int minValue = 0;  // Variable to store the minimum value in the array
-    int arr[10] = {1, 2, 5, 6, 7, 8, 9, 0, 88, -11};  // Array containing integer values
+    int minValue = 0;
+    int arr[10] = {1, 2, 5, 6, 7, 8, 9, 0, 88, -11};
     
-    int len =  sizeof(arr)/sizeof(arr[0]);  // Calculate the length of the array
+    int len =  sizeof(arr)/sizeof(arr[0]);
 
-    printArray(arr, len);  // Print the elements of the array
-    minValue = findMinValue(arr, len);  // Find the minimum value in the array
-    printf("Min value is : %d\n", minValue);  // Print the minimum value
+    printArray(arr, len);
+    minValue = findMinValue(arr, len);
+    printf("Min value is : %d\n", minValue);
     
-    return 0;  // Exit the program
+    return 0;
 }
 /*
 Expected Output:
