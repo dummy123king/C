@@ -1,8 +1,22 @@
+/**
+ * @file anagrams.c
+ * @brief Demonstrates how to check if two words are anagrams of each other.
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
 
+/**
+ * @brief Determines if two given strings are anagrams.
+ * 
+ * @note This implementation assumes that the strings contain only alphabetic characters.
+ *
+ * @param wrd1 The first string to check.
+ * @param wrd2 The second string to check.
+ * @return true if the strings are anagrams, false otherwise.
+ */
 bool is_anagram(const char *wrd1, const char *wrd2)
 {
 	int len1 = strlen(wrd1);
@@ -24,6 +38,11 @@ bool is_anagram(const char *wrd1, const char *wrd2)
 	return true;
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
 int main(void)
 {
 	char wrd1[] = "Listen";
