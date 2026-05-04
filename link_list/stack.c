@@ -170,3 +170,13 @@ int main(void)
 
 	return 0;
 }
+
+/*
+Expected Output:
+Stack is empty...
+1 -> 2 -> 3 -> 4 -> 5 -> NULL
+Popped element: 1
+2 -> 3 -> 4 -> 5 -> NULL
+Peeked element: 2
+Stack is not empty...
+*/

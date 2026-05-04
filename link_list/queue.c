@@ -201,3 +201,12 @@ int main(void)
 	delete_queue();
 	return 0;
 }
+
+/*
+Expected Output:
+1 -> 2 -> 3 -> 4 -> NULL
+--------------------------->>>Data: 1
+2 -> 3 -> 4 -> NULL
+--------------------------->>>Data: 2
+3 -> 4 -> NULL
+*/

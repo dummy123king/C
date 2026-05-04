@@ -1,3 +1,8 @@
+/**
+ * @file singly.c
+ * @brief Demonstrates operations on a singly linked list.
+ */
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,12 +17,12 @@ typedef struct single_link_list
 {
 	int data;
 	struct single_link_list *next;
-} Node;
+} node_t;
 
 /**
  * Global pointer to the first node of the linked list.
  */
-Node *head = NULL;
+node_t *head = NULL;
 
 /**
  * Creates a new linked list node with the given data.
@@ -26,29 +31,27 @@ Node *head = NULL;
  *
  * @return A pointer to the newly created node, or NULL if memory allocation fails.
  */
-static Node *create_node(int data)
+static node_t *create_node(int data)
 {
-	Node *newNode = malloc(sizeof(Node));
-	if (newNode == NULL)
+	node_t *new_node = malloc(sizeof(node_t));
+	if (new_node == NULL)
 	{
 		fprintf(stderr, "Unable to allocate memory for a new node\n");
 		return NULL;
 	}
-	newNode->data = data;
-	newNode->next = NULL;
-	return newNode;
+	new_node->data = data;
+	new_node->next = NULL;
+	return new_node;
 }
 
 /**
  * Prints all nodes in the linked list.
  *
- * @param None.
- *
  * @return None. Prints the linked list elements or a message if the list is empty.
  */
 void print_list(void)
 {
-	Node *temp = head;
+	node_t *temp = head;
 
 	if (temp == NULL)
 	{
@@ -72,14 +75,14 @@ void print_list(void)
  */
 void add_at_first(int data)
 {
-	Node *newNode = create_node(data);
+	node_t *new_node = create_node(data);
 
-	if (newNode == NULL)
+	if (new_node == NULL)
 	{
 		return;
 	}
-	newNode->next = head;
-	head = newNode;
+	new_node->next = head;
+	head = new_node;
 }
 
 /**
@@ -91,31 +94,29 @@ void add_at_first(int data)
  */
 void add_at_last(int data)
 {
-	Node *newNode = create_node(data);
+	node_t *new_node = create_node(data);
 
-	if (newNode == NULL)
+	if (new_node == NULL)
 	{
 		return;
 	}
 
 	if (head == NULL)
 	{
-		head = newNode;
+		head = new_node;
 		return;
 	}
 
-	Node *temp = head;
+	node_t *temp = head;
 	while (temp->next != NULL)
 	{
 		temp = temp->next;
 	}
-	temp->next = newNode;
+	temp->next = new_node;
 }
 
 /**
  * Deletes the first node from the linked list.
- *
- * @param None.
  *
  * @return None. Removes the first node or prints a message if the list is empty.
  */
@@ -127,15 +128,13 @@ void delete_at_first(void)
 		return;
 	}
 
-	Node *temp = head;
+	node_t *temp = head;
 	head = head->next;
 	free(temp);
 }
 
 /**
  * Deletes the last node from the linked list.
- *
- * @param None.
  *
  * @return None. Removes the last node or prints a message if the list is empty.
  */
@@ -147,8 +146,8 @@ void delete_at_last(void)
 		return;
 	}
 
-	Node *temp = head;
-	Node *prev = NULL;
+	node_t *temp = head;
+	node_t *prev = NULL;
 
 	while (temp->next != NULL)
 	{
@@ -177,36 +176,34 @@ void delete_at_last(void)
  */
 void add_at_middle(int data)
 {
-	Node *newNode = create_node(data);
+	node_t *new_node = create_node(data);
 
-	if (newNode == NULL)
+	if (new_node == NULL)
 	{
 		return;
 	}
 
 	if (head == NULL)
 	{
-		head = newNode;
+		head = new_node;
 		return;
 	}
 
-	Node *midPtr = head;
-	Node *fastPtr = head->next;
+	node_t *mid_ptr = head;
+	node_t *fast_ptr = head->next;
 
-	while (fastPtr != NULL && fastPtr->next != NULL)
+	while (fast_ptr != NULL && fast_ptr->next != NULL)
 	{
-		midPtr = midPtr->next;
-		fastPtr = fastPtr->next->next;
+		mid_ptr = mid_ptr->next;
+		fast_ptr = fast_ptr->next->next;
 	}
 
-	newNode->next = midPtr->next;
-	midPtr->next = newNode;
+	new_node->next = mid_ptr->next;
+	mid_ptr->next = new_node;
 }
 
 /**
  * Deletes the middle node from the linked list.
- *
- * @param None.
  *
  * @return None. Removes the middle node or prints a message if the list is empty.
  */
@@ -225,9 +222,9 @@ void delete_at_middle_1(void)
 		return;
 	}
 
-	Node *slow = head;
-	Node *fast = head;
-	Node *prev = NULL;
+	node_t *slow = head;
+	node_t *fast = head;
+	node_t *prev = NULL;
 
 	while (fast != NULL && fast->next != NULL)
 	{
@@ -243,24 +240,22 @@ void delete_at_middle_1(void)
 /**
  * Reverses the linked list iteratively.
  *
- * @param None.
- *
  * @return None. Updates the head pointer to the first node of the reversed list.
  */
 void reverse_list(void)
 {
-	Node *prevNode = NULL;
-	Node *currNode = head;
-	Node *nextNode = NULL;
+	node_t *prev_node = NULL;
+	node_t *curr_node = head;
+	node_t *next_node = NULL;
 
-	while (currNode != NULL)
+	while (curr_node != NULL)
 	{
-		nextNode = currNode->next;
-		currNode->next = prevNode;
-		prevNode = currNode;
-		currNode = nextNode;
+		next_node = curr_node->next;
+		curr_node->next = prev_node;
+		prev_node = curr_node;
+		curr_node = next_node;
 	}
-	head = prevNode;
+	head = prev_node;
 }
 
 /**
@@ -270,7 +265,7 @@ void reverse_list(void)
  *
  * @return None. Updates the head pointer to the first node of the reversed list.
  */
-void reverse_list_recursively(Node *ptr)
+void reverse_list_recursively(node_t *ptr)
 {
 	if (ptr == NULL)
 	{
@@ -292,16 +287,13 @@ void reverse_list_recursively(Node *ptr)
 /**
  * Checks whether the linked list contains a loop.
  *
- * @param None.
- *
  * @return true if the linked list contains a loop, otherwise false.
  */
 bool find_loop_in_list(void)
 {
-	Node *slow = head;
-	Node *fast = head;
+	node_t *slow = head;
+	node_t *fast = head;
 
-	// Using Floyd's cycle detection algorithm to find a loop in the list
 	while (fast != NULL && fast->next != NULL)
 	{
 		slow = slow->next;
@@ -320,17 +312,15 @@ bool find_loop_in_list(void)
 /**
  * Deletes all nodes from the linked list and frees their memory.
  *
- * @param None.
- *
  * @return None. Frees all nodes and sets the head pointer to NULL.
  */
-void freeList(void)
+void free_list(void)
 {
-	Node *temp = head;
+	node_t *temp = head;
 
 	while (temp != NULL)
 	{
-		Node *next = temp->next;
+		node_t *next = temp->next;
 		free(temp);
 		temp = next;
 	}
@@ -339,8 +329,6 @@ void freeList(void)
 
 /**
  * Demonstrates linked list operations.
- *
- * @param None.
  *
  * @return 0 after completing all linked list operations.
  */
@@ -370,7 +358,17 @@ int main(void)
 	print_list();
 
 	(void)find_loop_in_list();
-	freeList();
+	free_list();
 
 	return 0;
 }
+
+/*
+Expected Output:
+33->2->5->4->5->1->NULL
+33->2->5->4->77->5->1->99->NULL
+2->5->4->5->1->NULL
+1->5->4->5->2->NULL
+2->5->4->5->1->NULL
+No loop in the list
+*/

@@ -334,3 +334,12 @@ int main(void)
 
 	return 0;
 }
+
+/*
+Expected Output:
+Original list:
+NULL<->5<->1<->6<->55<->77<->88<->99<->NULL
+
+List after reversing:
+NULL<->99<->88<->77<->55<->6<->1<->5<->NULL
+*/
