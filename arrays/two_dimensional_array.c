@@ -1,9 +1,18 @@
-#include <stdio.h>
+/**
+ * @file two_dimensional_array.c
+ * @brief Demonstrates the initialization and printing of a 2D integer array.
+ */
 
 #include <stdio.h>
 
-// Function to print the elements of a 2D array
-void printArray(int ptr[][3], int rows, int cols)
+/**
+ * @brief Prints the elements of a 2D array.
+ *
+ * @param ptr Pointer to the 2D integer array.
+ * @param rows Number of rows in the array.
+ * @param cols Number of columns in the array.
+ */
+void print_array(int ptr[][3], int rows, int cols)
 {
     for (int i = 0; i < rows; i++)
     {
@@ -16,13 +25,18 @@ void printArray(int ptr[][3], int rows, int cols)
     printf("\n");
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 {
-    // Define a 2D array and initialize it with values
     int array[3][3] = {0};
     int value = 5;
 
-    // Fill the array with increasing values
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -31,24 +45,21 @@ int main(int argc, char **argv)
         }
     }
 
-    // Calculate the number of rows and columns in the array
     int rows = sizeof(array) / sizeof(array[0]);
     int cols = sizeof(array[0]) / sizeof(array[0][0]);
 
-    // Print the array elements
     printf("\t2D-Array\n\n");
-    printArray(array, rows, cols);
+    print_array(array, rows, cols);
 
     return 0;
 }
 
 /*
-
+Expected Output:
         2D-Array
 
     5,     6,     7, 
     8,     9,    10, 
    11,    12,    13, 
-
 
 */
