@@ -1,9 +1,21 @@
+/**
+ * @file named_semaphores.c
+ * @brief Demonstrates the creation and use of named semaphores in Linux.
+ */
+
 #include <stdio.h>
 #include <sys/fcntl.h>
 #include <semaphore.h>
 #include <unistd.h>
 #include <stdlib.h>
 
+/**
+ * @brief Main function to demonstrate named semaphores.
+ *
+ * Creates a named semaphore, waits on it, and then posts to it.
+ *
+ * @return 0 on successful execution.
+ */
 int main()
 {
     int value;
@@ -12,14 +24,14 @@ int main()
 
     if (semaphore == SEM_FAILED)
     {
-        printf("Unbale to create semaphore exiting the program\n");
+        printf("Unable to create semaphore exiting the program\n");
         exit(EXIT_FAILURE);
     }
     
 
     if (sem_getvalue(semaphore, &value) == -1)
     {
-        printf("Unbale to Get semaphore value exiting the program\n");
+        printf("Unable to get semaphore value exiting the program\n");
         exit(EXIT_FAILURE);
     }
  
@@ -27,13 +39,13 @@ int main()
     
     if(sem_wait(semaphore) == -1)
     {
-        printf("Unbale to wait exiting the program\n");
+        printf("Unable to wait exiting the program\n");
         exit(EXIT_FAILURE);
     }
    
     if (sem_getvalue(semaphore, &value) == -1)
     {
-        printf("Unbale to Get semaphore value exiting the program\n");
+        printf("Unable to get semaphore value exiting the program\n");
         exit(EXIT_FAILURE);
     }
 
@@ -42,13 +54,13 @@ int main()
 
     if(sem_post(semaphore) == -1)
     {
-        printf("Unbale to release the Semaphore exiting the program\n");
+        printf("Unable to release the semaphore exiting the program\n");
         exit(EXIT_FAILURE);        
     }
 
     if (sem_getvalue(semaphore, &value) == -1)
     {
-        printf("Unbale to Get semaphore value exiting the program\n");
+        printf("Unable to get semaphore value exiting the program\n");
         exit(EXIT_FAILURE);
     }
     
@@ -56,9 +68,16 @@ int main()
     
     if(sem_unlink("semaphore") == -1)
     {
-        printf("Unbale to Unlink/Delete semaphore exiting the program\n");
+        printf("Unable to unlink/delete semaphore exiting the program\n");
         exit(EXIT_FAILURE);
     }
 
     return 0;
 }
+
+/*
+Expected Output:
+before critical section 4
+In critical section 3
+After critical section 4
+*/
