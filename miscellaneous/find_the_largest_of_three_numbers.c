@@ -26,6 +26,11 @@ int find_the_largest_of_three_numbers(int num1, int num2, int num3)
 	return largest_number;
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
 int main(void)
 {
 	int num1 = 1;
@@ -37,3 +42,8 @@ int main(void)
 
 	return 0;
 }
+
+/*
+Expected Output:
+Largest number = 3
+*/
