@@ -1,22 +1,35 @@
+/**
+ * @file strutures.c
+ * @brief Demonstrates various C structure, union, and endianness concepts.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 
-// User defined SIZEOF
+/**
+ * @brief User-defined macro to calculate the size of a variable.
+ */
 #define SIZEOF(X) ({ __typeof__(X) Y; ((char *)(&Y + 1) - (char *)&Y); })
 
+/**
+ * @brief Demonstrates a user-defined sizeof macro on a struct.
+ */
 void user_defined_sizeof(void)
 {
 	typedef struct
 	{
 		int a;
-	} data;
-	data object = {0};
+	} data_t;
+	data_t object = {0};
 	int a = 0;
 	printf("sizeof struct = %ld\n", SIZEOF(object));
 }
 
+/**
+ * @brief Checks and prints the endianness of the system.
+ */
 void check_endianess(void)
 {
 	typedef union
@@ -33,26 +46,9 @@ void check_endianess(void)
 		printf("Big Endian\n");
 }
 
-void convert_little_endian_to_big_endian()
-{
-	uint32_t u32Result = 0;
-	uint32_t u32Value = 0x12345678;
-
-	printf("original data = 0x%x\n", u32Value);
-	u32Result |= (u32Value & 0x000000FF) << 24;
-	u32Result |= (u32Value & 0x0000FF00) << 8;
-	u32Result |= (u32Value & 0x00FF0000) >> 8;
-	u32Result |= (u32Value & 0xFF000000) >> 24;
-	printf("modified = 0x%x\n", u32Result);
-
-	printf("\n----------------------------------------------\n");
-
-	uint32_t data = 0x12345678;
-	printf("modified = 0x%x\n", data);
-	data = (data & 0xff000000) >> 24 | (data & 0x00ff0000) >> 8 | (data & 0x0000ff00) << 8 | (data & 0x000000ff) << 24;
-	printf("modified = 0x%x\n", data);
-}
-
+/**
+ * @brief Demonstrates the use of anonymous structures and unions within a struct.
+ */
 void annonymous_use_struct_union(void)
 {
 	typedef struct
@@ -68,11 +64,11 @@ void annonymous_use_struct_union(void)
 			int c;
 			int d;
 		};
-	} annonymous;
+	} annonymous_t;
 
-	printf("------------------------------------------------------->>> = %lu\n", sizeof(annonymous));
+	printf("------------------------------------------------------->>> = %lu\n", sizeof(annonymous_t));
 
-	annonymous object_1;
+	annonymous_t object_1;
 	object_1.data = 5;
 	object_1.a = 6;
 	object_1.b = 4;
@@ -85,7 +81,10 @@ void annonymous_use_struct_union(void)
 	printf("object_1.data = %d\n", object_1.data);
 }
 
-void structure_padding()
+/**
+ * @brief Demonstrates structure padding and its effect on size.
+ */
+void structure_padding(void)
 {
 	typedef struct
 	{
@@ -100,6 +99,9 @@ void structure_padding()
 	printf("%ld\n", sizeof(padding_t));
 }
 
+/**
+ * @brief Demonstrates the use of a flexible array member.
+ */
 void flexible_arry(void)
 {
 	typedef struct
@@ -119,14 +121,22 @@ void flexible_arry(void)
 	printf("----->>>%lu\n", sizeof(object));
 }
 
+/**
+ * @brief Structure containing an array, string, and integer.
+ */
 typedef struct name
 {
 	int data[3];
 	char name[100];
 	int marks;
-} Data;
+} data_t;
 
-void passData(Data *obj)
+/**
+ * @brief Prints the contents of a data structure.
+ *
+ * @param obj Pointer to the data structure.
+ */
+void pass_data(data_t *obj)
 {
 	printf("FILE: %s, FUNC: %s, LINE: %d\n", __FILE__, __func__, __LINE__);
 	printf("data  :%d\n", obj->data[0]);
@@ -136,24 +146,24 @@ void passData(Data *obj)
 	printf("Marks  :%d\n", obj->marks);
 }
 
-int main()
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
+int main(void)
 {
 	annonymous_use_struct_union();
 
-	// structure_padding();
-
-	// 	void (*fptr)(Data *) = passData;
-
-	// 	Data obj;
-	// 	obj.data[0]	= 5;
-	// 	obj.data[1]	= 55;
-	// 	obj.data[2]	= 56;
-	// 	obj.marks = 88;
-	// 	strcpy(obj.name, "Shaheena");
-	// (*fptr)(&obj);
-	// fptr(&obj);
-	// flexible_arry();
-
-	// passData(&obj);
 	return 0;
 }
+
+/*
+Expected Output:
+------------------------------------------------------->>> = 16
+object_1.a    = 4
+object_1.b    = 4
+object_1.c    = 5
+object_1.d    = 1
+object_1.data = 5
+*/
