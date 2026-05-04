@@ -5,30 +5,42 @@
 #include <sys/fcntl.h>
 #include <sys/wait.h>
 
-// Command to check zombie process in Terminal "ps aux | grep Z"
-
 /*
-In Linux, a zombie process is a process that has completed execution but still has an entry in the process table.
-This occurs when the process's parent has not yet called the wait() or waitpid()
-system call to retrieve the process's exit status. Until the parent retrieves the exit status of the child process,
-the child process remains in a "zombie" state, consuming very few system resources but still taking up an entry in the process table.
-
-Zombie processes are typically very short-lived and usually exist only briefly until their parent process retrieves their exit status.
-Once the parent process retrieves the exit status of its child process, the zombie process is removed from the process table,
-and its entry is completely cleared from memory,
-releasing any resources associated with it.
-
-Zombie processes do not pose an immediate threat to system stability or performance,
-but if a large number of zombie processes accumulate, it may indicate a problem with the parent process not properly managing its child processes.
-In such cases, it's essential to identify and fix the issue with the parent process to prevent excessive resource consumption.
-
-To avoid the accumulation of zombie processes, it's good practice for parent processes to
-promptly handle the termination of their child processes by calling wait() or waitpid() to retrieve their exit statuses.
-This ensures that zombie processes are promptly removed from the system, preventing any potential issues with resource exhaustion.
-
-*/
-
-
+ * @file zombie_process.c
+ * @brief Demonstrates the creation and behavior of a zombie process.
+ *
+ * @details
+ * In Linux, a zombie process is a process that has completed execution but still has an entry in the process table.
+ * This occurs when the process's parent has not yet called the wait() or waitpid()
+ * system call to retrieve the process's exit status. Until the parent retrieves the exit status of the child process,
+ * the child process remains in a "zombie" state, consuming very few system resources but still taking up an entry in the process table.
+ *
+ * Zombie processes are typically very short-lived and usually exist only briefly until their parent process retrieves their exit status.
+ * Once the parent process retrieves the exit status of its child process, the zombie process is removed from the process table,
+ * and its entry is completely cleared from memory,
+ * releasing any resources associated with it.
+ *
+ * Zombie processes do not pose an immediate threat to system stability or performance,
+ * but if a large number of zombie processes accumulate, it may indicate a problem with the parent process not properly managing its child processes.
+ * In such cases, it's essential to identify and fix the issue with the parent process to prevent excessive resource consumption.
+ *
+ * To avoid the accumulation of zombie processes, it's good practice for parent processes to
+ * promptly handle the termination of their child processes by calling wait() or waitpid() to retrieve their exit statuses.
+ * This ensures that zombie processes are promptly removed from the system, preventing any potential issues with resource exhaustion.
+ *
+ * @note To check for the zombie process in the terminal, run: `ps aux | grep Z`
+ */
+/**
+ * @brief Main function to demonstrate a zombie process.
+ *
+ * Creates a child process. The child exits after 5 seconds. The parent waits
+ * for 14 seconds before calling waitpid(), allowing the child to become a
+ * zombie for approximately 9 seconds.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 {
     pid_t id  = fork();
@@ -56,3 +68,14 @@ int main(int argc, char **argv)
     
     return 0;
 }
+
+/*
+Expected Output (PIDs will vary, order of first two lines may vary):
+Parent process
+Child Id 12346
+Child process terminated
+(...9 second delay during which child is a zombie...)
+(...waitpid() is called, reaping the zombie...)
+(...20 second delay...)
+Parent process terminated
+*/
