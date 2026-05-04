@@ -1,34 +1,54 @@
+/**
+ * @file count_lower_case_letters.c
+ * @brief Demonstrates counting the number of lowercase letters in a string.
+ */
+
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
-// Function to count the number of lowercase letters in a string
-int countLowerCaseLetters(char *ptr)
+/**
+ * @brief Counts the number of lowercase letters in a given string.
+ *
+ * @param ptr Pointer to the null-terminated string to be evaluated.
+ * @return The total count of lowercase letters in the string.
+ */
+int count_lower_case_letters(const char *ptr)
 {
-    int count;             // Variable to store the count of lowercase letters
-    int len = strlen(ptr); // Calculate the length of the input string
+    int count = 0;
+    int len = strlen(ptr);
 
-    // Loop through each character in the string
     for (int i = 0; i < len; i++)
     {
-        // Check if the character is lowercase
         if (islower(ptr[i]))
         {
-            count++;  // Increment the count if the character is lowercase
+            count++;
         }
     }
-    return count;  // Return the total count of lowercase letters
+    return count;
 }
 
-// Entry point of the program
+/**
+ * @brief Entry point of the program.
+ * 
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 {
-    int count = 0;                      // Variable to store the count of lowercase letters
-    char arr[] = "Count Lower Case Letters";  // Input string
-    printf("String = %s\n", arr);       // Print the input string
+    int count = 0;
+    char arr[] = "Count Lower Case Letters";
+    printf("String = %s\n", arr);
 
-    // Call the function to count the number of lowercase letters
-    count = countLowerCaseLetters(arr);
-    printf("Lower case letter count : %d\n", count);  // Print the count of lowercase letters
+    count = count_lower_case_letters(arr);
+    printf("Lower case letter count : %d\n", count);
     
-    return 0;  // Exit the program
+    return 0;
 }
+
+/*
+Expected Output:
+String = Count Lower Case Letters
+Lower case letter count : 17
+*/
