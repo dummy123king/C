@@ -1,7 +1,19 @@
+/**
+ * @file three_dimensional_array.c
+ * @brief Demonstrates the initialization and printing of a 3D integer array.
+ */
+
 #include <stdio.h>
 
-// Function to print the elements of a 3D array
-void printArray(int ptr[][3][3], int depth, int rows, int cols)
+/**
+ * @brief Prints the elements of a 3D array.
+ *
+ * @param ptr Pointer to the 3D integer array.
+ * @param depth Number of layers (depth) in the array.
+ * @param rows Number of rows in each layer.
+ * @param cols Number of columns in each layer.
+ */
+void print_array(int ptr[][3][3], int depth, int rows, int cols)
 {
     for (int i = 0; i < depth; i++)
     {
@@ -18,14 +30,18 @@ void printArray(int ptr[][3][3], int depth, int rows, int cols)
     }
 }
 
-//Entry
+/**
+ * @brief Entry point of the program.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 {
-    // Define and initialize a 3D array
     int array[3][3][3] = {0};
     int value = 1;
 
-    // Fill the array with increasing values
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -37,19 +53,18 @@ int main(int argc, char **argv)
         }
     }
 
-    // Calculate the number of layers, rows, and columns in the array
     int depth = sizeof(array) / sizeof(array[0]);
     int rows = sizeof(array[0]) / sizeof(array[0][0]);
     int cols = sizeof(array[0][0]) / sizeof(array[0][0][0]);
     
-    // Print the array elements
     printf("\t3D-Array\n\n");
-    printArray(array, depth, rows, cols);
+    print_array(array, depth, rows, cols);
 
     return 0;
 }
 
 /*
+Expected Output:
     3D-Array
 
 Layer 1:
