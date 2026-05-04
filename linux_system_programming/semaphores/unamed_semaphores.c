@@ -1,3 +1,8 @@
+/**
+ * @file unamed_semaphores.c
+ * @brief Demonstrates the use of unnamed semaphores for thread synchronization in Linux.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -7,9 +12,18 @@
 #include <pthread.h>
 #include <errno.h>
 
+/** @brief Shared resource accessed by multiple threads. */
 static volatile int shared_data = 0;
+
+/** @brief Unnamed semaphore for synchronizing access to shared_data. */
 sem_t semaphore;
 
+/**
+ * @brief First thread function to increment shared data.
+ *
+ * @param params Unused parameter.
+ * @return NULL.
+ */
 void *task1(void *params)
 {
     printf("Thread 1\n");
@@ -19,8 +33,15 @@ void *task1(void *params)
         shared_data++;
         sem_post(&semaphore);
     }
+    return NULL;
 }
 
+/**
+ * @brief Second thread function to increment shared data.
+ *
+ * @param params Unused parameter.
+ * @return NULL.
+ */
 void *task2(void *params)
 {
     printf("Thread 2\n");
@@ -30,8 +51,17 @@ void *task2(void *params)
         shared_data++;
         sem_post(&semaphore);
     }
+    return NULL;
 }
 
+/**
+ * @brief Main function to demonstrate unnamed semaphores.
+ *
+ * Initializes the semaphore, creates two threads that access the shared
+ * data concurrently, and then prints the final value of the shared data.
+ *
+ * @return 0 on successful execution.
+ */
 int main()
 {
     int value;
@@ -39,7 +69,7 @@ int main()
 
     if (sem_init(&semaphore, 0, 1) == -1)
     {
-        printf("Unbale to create semaphore\n");
+        printf("Unable to create semaphore\n");
         exit(EXIT_FAILURE);
     }
 
@@ -77,3 +107,10 @@ int main()
 
     return 0;
 }
+
+/*
+Expected Output:
+Thread 1
+Thread 2
+shared Data = 200000
+*/
