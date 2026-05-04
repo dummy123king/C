@@ -1,13 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <pthread.h>
-#include <stdint.h>
-#include <semaphore.h>
+/**
+ * @file removev_vowels.c
+ * @brief Demonstrates the removal of vowels from a given string.
+ */
 
-void removeVowels(char *str)
+#include <stdio.h>
+#include <string.h>
+
+/**
+ * @brief Removes all vowels from a given string in place.
+ *
+ * @param str Pointer to the string to be modified.
+ */
+void remove_vowels(char *str)
 {
     int j = 0;
     for (int i = 0; i < strlen(str); i++)
@@ -22,11 +26,26 @@ void removeVowels(char *str)
     str[j] = '\0';
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return 0 on successful execution.
+ */
 int main(int argc, char **argv)
 {
     char str[] = "Helloo World HELLOO WORLD";
     printf("Original Str: %s\n\n", str);
-    removeVowels(str);
+    remove_vowels(str);
     printf("Modified Str: %s\n\n", str);
     return 0;
 }
+
+/*
+Expected Output:
+Original Str: Helloo World HELLOO WORLD
+
+Modified Str: Hll Wrld HLL WRLD
+
+*/
