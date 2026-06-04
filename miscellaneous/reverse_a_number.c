@@ -22,6 +22,11 @@ int reverse_number(int data)
 	return reversed_number;
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution.
+ */
 int main(void)
 {
 	int data = 123;
@@ -30,3 +35,9 @@ int main(void)
 
 	return 0;
 }
+
+/*
+Expected Output:
+before reverse = 123
+after reverse  = 321
+*/
