@@ -19,8 +19,10 @@ int count_occurances_digit(int *arr, int len, int num)
 {
     int count = 0;
 
-    for (int i = 0; i < len; i++) {
-        if (num == arr[i]) {
+    for (int i = 0; i < len; i++)
+    {
+        if (num == arr[i])
+        {
             count++;
         }
     }
