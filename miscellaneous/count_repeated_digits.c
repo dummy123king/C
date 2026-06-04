@@ -18,20 +18,24 @@ int most_repeated_digit(long unsigned int n)
     int max_count = 0;
     int repeated_digit = -1;
     
-    while (n > 0) {
+    while (n > 0)
+    {
         int digit = n % 10;
         digit_count[digit]++;
         n /= 10;
     }
 
-    for (int i = 0; i < 10; i++) {
-        if (digit_count[i] > max_count) {
+    for (int i = 0; i < 10; i++)
+    {
+        if (digit_count[i] > max_count)
+        {
             max_count = digit_count[i];
             repeated_digit = i;
         }
     }
 
-    if (max_count <= 1) {
+    if (max_count <= 1)
+    {
         return -1;
     }
     
@@ -45,7 +49,8 @@ int most_repeated_digit(long unsigned int n)
  *
  * @return 0 on successful execution.
  */
-int main(void) {
+int main(void)
+{
     long unsigned int n = 555544444;
     most_repeated_digit(n);
     return 0;
