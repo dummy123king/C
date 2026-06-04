@@ -37,9 +37,14 @@ unsigned long long int factorial_with_recursion(int number)
     return (number * factorial_with_recursion(number - 1));
 }
 
+/**
+ * @brief Entry point of the program.
+ *
+ * @return 0 on successful execution, 1 if input is invalid.
+ */
 int main(void)
 {
-    int data = 21;
+    int data = 5;
 
     if (data < 0 || data > 20)
     {
@@ -52,3 +57,9 @@ int main(void)
 
     return 0;
 }
+
+/*
+Expected Output:
+Factorial with Iteration: 120
+Factorial with Recursion: 120
+*/
